@@ -16,7 +16,7 @@ function App() {
   
   const openConnection = () => {
     /* const protocol = window.location.protocol.includes('https') ? 'wss': 'ws' */
-    const connection = new WebSocket(`ws://testsocket.cyclic.app`)
+    const connection = new WebSocket(`wss://testsocket.cyclic.app`)
     setWs(connection)    
   }
   ws.onopen = () => console.log("openeeeed")
