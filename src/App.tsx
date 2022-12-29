@@ -1,6 +1,4 @@
-
-import {useState, useEffect} from 'react';
-
+import {useState} from 'react';
 
 type Message = {
   clientId: string,
@@ -68,7 +66,7 @@ function App() {
     <div className="App">
       {messages && messages.map(msg => {
         return (
-          <div>
+          <div key={msg.content}>
           <span>{msg.content}</span>
           {msg.clientId === clientId && <button onClick={deleteMessage}>delete</button>}
           </div>
