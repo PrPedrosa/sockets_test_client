@@ -15,8 +15,8 @@ function App() {
   const handleMessage = (e : React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value);
   
   const openConnection = () => {
-    const protocol = window.location.protocol.includes('https') ? 'wss': 'ws'
-    const connection = new WebSocket(`${protocol}://testsocket.cyclic.app/`)
+    /* const protocol = window.location.protocol.includes('https') ? 'wss': 'ws' */
+    const connection = new WebSocket(`ws://testsocket.cyclic.app`)
     setWs(connection)    
   }
   ws.onopen = () => console.log("openeeeed")
