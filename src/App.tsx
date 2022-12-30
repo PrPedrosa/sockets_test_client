@@ -24,6 +24,8 @@ let randId = () => {
   return s4() + s4() + "-" + s4() + s4() + s4();
 }
 
+const env:any = process.env.REACT_APP_API_URL
+
 function App() {
  
   const [ws, setWs] = useState<any>({})
@@ -48,7 +50,7 @@ function App() {
   
   const openConnection = () => {
     /* const protocol = window.location.protocol.includes('https') ? 'wss': 'ws' */
-    const connection = new WebSocket(`${process.env.REACT_APP_API_URL}`)
+    const connection = new WebSocket(env)
     setWs(connection)    
   }
   ws.onopen = () => console.log("opened connection")
