@@ -51,7 +51,7 @@ function App() {
   
   const openConnection = () => {
     /* const protocol = window.location.protocol.includes('https') ? 'wss': 'ws' */
-    const connection = new WebSocket("ws://localhost:8080")
+    const connection = new WebSocket(env)
     setWs(connection)    
   }
   ws.onopen = () => console.log("opened connection")
