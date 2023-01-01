@@ -108,7 +108,7 @@ function App() {
           {onlineClients ?
           <>
           <p>Online: {onlineClients.length}</p>
-          {onlineClients.map(client => <p key={client.clientId}>{client.name}</p>)} 
+          {onlineClients.map(client => <p key={client.clientId} className="text-white">{client.name}</p>)} 
           </>
           : null}
       </div>
