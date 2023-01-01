@@ -7,7 +7,8 @@ type Message = {
   clientId: string,
   content: string,
   messageId: string,
-  date: string
+  date: string,
+  clientName: string
 }
 
 type Client = {
@@ -50,7 +51,7 @@ function App() {
   
   const openConnection = () => {
     /* const protocol = window.location.protocol.includes('https') ? 'wss': 'ws' */
-    const connection = new WebSocket(env)
+    const connection = new WebSocket("ws://localhost:8080")
     setWs(connection)    
   }
   ws.onopen = () => console.log("opened connection")
@@ -81,6 +82,7 @@ function App() {
     const payLoad = {
       "method": "newMessage",
       "clientId": clientId,
+      "clientName": clientName,
       "content": message,
       "messageId": randId(),
       "date": moment().format('MMM Do YYYY, h:mm:ss a')
@@ -100,31 +102,46 @@ function App() {
   }
   
   return (
-    <div>
-      {!ws.url && <Home connect={openConnection}/>}
-      {ws.url && !toggleName && <ChooseName clientName={handleClientName} saveName={toggleClientName} nameState={clientName}/>}
-      {toggleName && messages && messages.map(msg => {
-        return (
-          <div key={msg.messageId}>
-          <span>{msg.content}</span>
-          {msg.clientId === clientId && <button onClick={() => deleteMessage(msg.messageId)}>delete</button>}
-          <p>{msg.date}</p>
-          </div>
-        )
-      })}
-      {toggleName &&
-        <div>
-          <input type="text" name="messages" id="messages" value={message} onChange={handleMessage}/>
-          <button onClick={handleSubmit}>Send Message</button>
-          <button onClick={() => ws.close()}>close connection</button>
+    <div className={"container h-screen bg-sky-900 flex flex-col items-center justify-between"}>
+      <div className='self-start mx-5'>
+      <button onClick={() => ws.close()} className={"border-2 rounded-xl px-2 border-red-900 text-white bg-slate-900 shadow hover:shadow-lg hover:ring hover:ring-red-900 hover:font-bold my-2"}>Log Out</button>
           {onlineClients ?
           <>
           <p>Online: {onlineClients.length}</p>
           {onlineClients.map(client => <p key={client.clientId}>{client.name}</p>)} 
           </>
           : null}
+      </div>
+
+      {!ws.url && <Home connect={openConnection}/>}
+      {ws.url && !toggleName && <ChooseName clientName={handleClientName} saveName={toggleClientName} nameState={clientName}/>}
+
+      <div className='h-4/5 flex flex-col items-center justify-end'>
+
+      <div className='overflow-y-auto'>
+      {toggleName && messages && messages.map(msg => {
+        return (
+          <div key={msg.messageId} className="border-2 border-red-500 px-2 py-1 my-2 rounded-xl w-80">
+            <div className='flex justify-between'>
+              <span className='text-white'>{msg.clientName}</span>
+              <span className='text-xs'>{msg.date}</span>
+            </div>
+          <p className='whitespace-normal break-words'>{msg.content}</p>
+          <div className='rounded-full flex justify-center items-center w-[22px] h-[22px] border-2 border-red-900 text-red-900 bg-slate-900 shadow hover:shadow-lg hover:ring-1 hover:ring-red-900 hover:font-bold my-2'>
+          {msg.clientId === clientId && <button onClick={() => deleteMessage(msg.messageId)} className="">X</button>}
+          </div>
+          </div>
+        )
+      })}
+      </div>
+
+      {toggleName &&
+        <div className='flex justify-start items-center py-2'>
+          <input type="text" name="messages" id="messages" value={message} onChange={handleMessage} className={"rounded-xl px-2 py-1 border-black border-2"}/>
+          <button onClick={handleSubmit} className={"border-2 rounded-xl p-2 border-violet-600 text-white bg-slate-800 shadow hover:shadow-lg hover:ring hover:ring-violet-600 hover:font-bold mx-2"}>Send</button>  
         </div> 
       }
+      </div>
     </div>
   );
 }
