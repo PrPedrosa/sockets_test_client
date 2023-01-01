@@ -123,7 +123,7 @@ function App() {
         return (
           <div key={msg.messageId} className="border-2 border-red-500 px-2 py-1 my-2 rounded-xl w-80">
             <div className='flex justify-between'>
-              <span className='text-white'>{msg.clientName}</span>
+              <span className='text-white'>{clientName}</span>
               <span className='text-xs'>{msg.date}</span>
             </div>
           <p className='whitespace-normal break-words'>{msg.content}</p>
